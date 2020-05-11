@@ -15,7 +15,7 @@ val Config.dataRoot by DSLBuilder.dataKeyWithDefault<File> { error("Provided") }
 
 data class BotListener<E : BotEvent>(val cls: KClass<E>, val listener: suspend E.(E) -> Unit)
 
-val IContentScript.botListeners by DSLBuilder.dataKeyWithDefault { mutableSetOf<BotListener<*>>() }
+val IContentScript.botListeners by DSLBuilder.dataKeyWithDefault { mutableListOf<BotListener<*>>() }
 
 inline fun <reified E : BotEvent> IContentScript.listen(noinline listener: suspend E.(E) -> Unit) {
     botListeners.add(BotListener(E::class, listener))

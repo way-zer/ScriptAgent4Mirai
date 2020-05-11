@@ -16,7 +16,7 @@ class ScriptAgent4Mirai : PluginBase() {
     override fun onEnable() {
         Config.pluginMain = this
         Config.dataRoot = dataFolder.resolve("data").apply { mkdirs() }
-        ScriptManager.loadDir(dataFolder.resolve("scripts"))
+        ScriptManager.loadDir(dataFolder.resolve("scripts").apply { mkdirs() })
     }
 
     override fun onDisable() {

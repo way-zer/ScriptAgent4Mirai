@@ -23,7 +23,9 @@ typealias Commands = ICommands<Sender>
 
 object RootCommands : Commands(null, "", "root") {
     override fun addSub(name: String, command: ICommand<in Sender>, isAliases: Boolean) {
+        super.addSub(name, command, isAliases)
         if (isAliases) return
+        if (command is ICommands<*>.HelpCommand) return
         Config.pluginMain.registerCommand {
             this.name = command.name
             this.description = command.description
@@ -36,10 +38,18 @@ object RootCommands : Commands(null, "", "root") {
     }
 
     override fun removeSub(name: String) {
+        if (name == "help") return
         CommandManager.unregister(name)
     }
 
     override fun handle(sender: Sender, arg: List<String>, prefix: String) {
         CommandManager.dispatchCommandBlocking(sender.player, prefix + arg.toString())
+    }
+
+    fun removeAll() {
+        subCommands.values.forEach {
+            removeSub(it.name)
+            it.aliases.forEach(this::removeSub)
+        }
     }
 }
