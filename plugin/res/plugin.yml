@@ -1,0 +1,6 @@
+name: "ScriptAgent"
+author: "WayZer"
+version: "@version@"
+main: "cf.wayzer.ScriptAgent4Mirai"
+info: "Kts加载器"
+depends: []
